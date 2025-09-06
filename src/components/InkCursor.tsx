@@ -35,16 +35,21 @@ class Dot {
     }
   
     draw() {
-      if (!this.idleRef.current || this.index <= Math.floor(20 * 0.3)) {
-        (window as any).gsap.set(this.element, { x: this.x, y: this.y });
-      } else {
+    // This offset is half the dot's diameter (26 / 2)
+    const offset = 13; 
+
+    if (!this.idleRef.current || this.index <= Math.floor(20 * 0.3)) {
+        // Apply the offset here
+        (window as any).gsap.set(this.element, { x: this.x - offset, y: this.y - offset });
+    } else {
         this.angleX += this.anglespeed;
         this.angleY += this.anglespeed;
         this.y = this.lockY + Math.sin(this.angleY) * this.range;
         this.x = this.lockX + Math.sin(this.angleX) * this.range;
-        (window as any).gsap.set(this.element, { x: this.x, y: this.y });
-      }
+        // And also apply the offset here for the idle animation
+        (window as any).gsap.set(this.element, { x: this.x - offset, y: this.y - offset });
     }
+}
   }
 
 export const InkCursor = () => {
