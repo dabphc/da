@@ -153,6 +153,31 @@
   .hero-subtitle {
     @apply text-xl md:text-2xl font-light text-muted-foreground;
   }
+  
+  /* Ink Cursor Styles */
+  .Cursor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    filter: url("#goo");
+    mix-blend-mode: difference; /* This creates the color inversion effect */
+  }
+
+  .Cursor span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #fff; /* A white cursor creates the best inversion */
+  }
 
   /* Animations */
   .fade-in-up {
@@ -169,3 +194,4 @@
     @apply animate-in fade-in duration-500;
   }
 }
+

@@ -9,12 +9,14 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import { InkCursor } from "./components/InkCursor";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <InkCursor />
       <Toaster />
       <Sonner />
       <BrowserRouter>

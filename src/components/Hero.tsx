@@ -1,24 +1,7 @@
 import CursorImageTrail from "@/components/ui/cursorimagetrail";
 import { MousePointer } from "lucide-react";
 
-const images = [
-  "/images/active/1.webp",
-  "/images/active/2.webp",
-  "/images/active/3.webp",
-  "/images/active/4.webp",
-  "/images/active/5.webp",
-  "/images/active/6.webp",
-  "/images/active/7.webp",
-  "/images/active/8.webp",
-  "/images/active/9.webp",
-  "/images/active/10.webp",
-  "/images/active/11.webp",
-  "/images/active/12.webp",
-  "/images/active/13.webp",
-  "/images/active/14.webp",
-  "/images/active/15.webp",
-  "/images/active/16.webp",
-];
+const images = Array.from({ length: 16 }, (_, i) => `/images/active/${i + 1}.webp`);
 
 const Hero = () => {
   return (
