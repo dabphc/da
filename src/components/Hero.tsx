@@ -1,9 +1,27 @@
+import { useEffect, useState } from "react";
 import CursorImageTrail from "@/components/ui/cursorimagetrail";
 import { MousePointer } from "lucide-react";
 
 const images = Array.from({ length: 16 }, (_, i) => `/images/active/${i + 1}.webp`);
 
 const Hero = () => {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    // Preload images for the trail effect
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    // Start the animation after a short delay
+    const animationTimer = setTimeout(() => {
+      setIsAnimating(true);
+    }, 200);
+
+    return () => clearTimeout(animationTimer);
+  }, []);
+
   return (
     <section className="relative min-h-screen bg-background flex flex-col items-center justify-center text-black dark:text-neutral-200 antialiased">
       {/* Background Trail */}

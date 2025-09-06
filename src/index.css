@@ -194,4 +194,6 @@
     @apply animate-in fade-in duration-500;
   }
 }
-
+body {
+  /* cursor: none; */
+}

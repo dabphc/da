@@ -27,7 +27,7 @@ const workItems: WorkItem[] = [
   { id: 13, category: "Workshops", image: "/images/active/13.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
   { id: 14, category: "Workshops", image: "/images/active/14.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
   { id: 15, category: "Designs", image: "/images/active/15.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 16, category: "Designs", image: "/images/active/16.png", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+   { id: 16, category: "Designs", image: "/images/active/16.png", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
 ];
 
 const categories = ["All", "Events", "Designs", "Workshops"] as const;
@@ -82,6 +82,7 @@ const Work = () => {
                 <img
                   src={item.image}
                   alt={item.name}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
