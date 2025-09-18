@@ -32,9 +32,9 @@ const Navigation = () => {
         </div>
 
         {/* Copyright */}
-        <div className="text-sm text-muted-foreground">
-          © 2008
-        </div>
+        {/* <div className="text-sm text-muted-foreground">
+          
+        </div> */}
       </div>
     </nav>
   );

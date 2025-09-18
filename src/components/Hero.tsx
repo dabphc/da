@@ -39,7 +39,7 @@ const Hero = () => {
       {/* Main Title */}
       <div className="relative z-10 text-center space-y-4 pointer-events-none flex-1 flex items-center justify-center">
         <h1 className="hero-title flex items-center gap-2 justify-center">
-          <span>Designer Anonymous</span>
+          <span>Designers Anonymous</span>
         </h1>
       </div>
 
