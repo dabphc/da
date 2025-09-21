@@ -142,13 +142,20 @@
   }
 
   /* Typography */
-  .hero-title {
-    @apply text-6xl md:text-8xl font-black tracking-tight;
-    background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--muted-foreground)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+.hero-title {
+  @apply text-6xl md:text-8xl font-black tracking-tight;
+  background: linear-gradient(
+    to right,
+    hsl(var(--muted-foreground)) 50%,
+    hsl(var(--foreground)) 50%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+  animation: text-reveal 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
 
   .hero-subtitle {
     @apply text-xl md:text-2xl font-light text-muted-foreground;
@@ -196,4 +203,13 @@
 }
 body {
   cursor: none;
+}
+
+@keyframes text-reveal {
+  from {
+    background-position: 0 0; /* Changed from '-100% 0' */
+  }
+  to {
+    background-position: 100% 0; /* Changed from '0 0' */
+  }
 }

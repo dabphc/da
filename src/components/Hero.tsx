@@ -1,20 +1,38 @@
 import { useEffect, useState } from "react";
 import CursorImageTrail from "@/components/ui/cursorimagetrail";
-import { MousePointer } from "lucide-react";
 
-const images = Array.from({ length: 16 }, (_, i) => `/images/active/${i + 1}.webp`);
+const images = Array.from(
+  { length: 16 },
+  (_, i) => `/images/active/${i + 1}.webp`,
+);
 
 const Hero = () => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
-    // Preload images for the trail effect
-    images.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    const preloadImages = () => {
+      const isLaptop = window.innerWidth >= 1024;
+      if (!isLaptop) {
+        setImagesLoaded(true);
+        return;
+      }
 
-    // Start the animation after a short delay
+      let loadedCount = 0;
+      images.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          loadedCount++;
+          if (loadedCount === images.length) {
+            setImagesLoaded(true);
+          }
+        };
+      });
+    };
+
+    preloadImages();
+
     const animationTimer = setTimeout(() => {
       setIsAnimating(true);
     }, 200);
@@ -38,9 +56,13 @@ const Hero = () => {
 
       {/* Main Title */}
       <div className="relative z-10 text-center space-y-4 pointer-events-none flex-1 flex items-center justify-center">
-        <h1 className="hero-title flex items-center gap-2 justify-center">
-          <span>Designers Anonymous</span>
-        </h1>
+        {imagesLoaded ? (
+         <h1 className="hero-title flex items-center gap-2 justify-center py-4">
+  <span>Designers Anonymous</span>
+</h1>
+        ) : (
+          <div className="text-2xl text-muted-foreground">Loading...</div>
+        )}
       </div>
 
       {/* Subtitle pinned at bottom */}

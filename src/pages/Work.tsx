@@ -12,22 +12,22 @@ interface WorkItem {
 
 // Use direct paths for public folder images
 const workItems: WorkItem[] = [
-  { id: 1, category: "Designs", image: "/images/active/1.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 2, category: "Events", image: "/images/active/2.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 3, category: "Designs", image: "/images/active/3.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 4, category: "Events", image: "/images/active/4.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 5, category: "Workshops", image: "/images/active/5.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 6, category: "Events", image: "/images/active/6.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 7, category: "Events", image: "/images/active/7.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 8, category: "Events", image: "/images/active/8.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 9, category: "Events", image: "/images/active/9.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 10, category: "Events", image: "/images/active/10.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 11, category: "Workshops", image: "/images/active/11.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 12, category: "Workshops", image: "/images/active/12.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 13, category: "Workshops", image: "/images/active/13.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 14, category: "Workshops", image: "/images/active/14.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-  { id: 15, category: "Designs", image: "/images/active/15.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
-   { id: 16, category: "Designs", image: "/images/active/16.webp", name: "Ranjit", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 1, category: "Designs", image: "/images/active/1.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 2, category: "Events", image: "/images/active/2.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 3, category: "Designs", image: "/images/active/3.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 4, category: "Events", image: "/images/active/4.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 5, category: "Workshops", image: "/images/active/5.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 6, category: "Events", image: "/images/active/6.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 7, category: "Events", image: "/images/active/7.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 8, category: "Events", image: "/images/active/8.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 9, category: "Events", image: "/images/active/9.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 10, category: "Events", image: "/images/active/10.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 11, category: "Workshops", image: "/images/active/11.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 12, category: "Workshops", image: "/images/active/12.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 13, category: "Workshops", image: "/images/active/13.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 14, category: "Workshops", image: "/images/active/14.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+  { id: 15, category: "Designs", image: "/images/active/15.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
+   { id: 16, category: "Designs", image: "/images/active/16.webp", name: "Da", instaLink: "https://www.instagram.com/_ranjit_choudhary_/" },
 ];
 
 const categories = ["All", "Events", "Designs", "Workshops"] as const;

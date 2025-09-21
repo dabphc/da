@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-
+import { gsap } from "gsap";
 // Define the Dot class at the top level
 class Dot {
     index: number;
@@ -23,7 +23,7 @@ class Dot {
       this.range = 26 / 2 - (26 / 2) * this.scale + 2;
       this.limit = 26 * 0.75 * this.scale;
       this.element = document.createElement("span");
-      (window as any).gsap.set(this.element, { scale: this.scale });
+        gsap.set(this.element, { scale: this.scale });
       cursorElement.appendChild(this.element);
     }
   
@@ -40,14 +40,14 @@ class Dot {
 
     if (!this.idleRef.current || this.index <= Math.floor(20 * 0.3)) {
         // Apply the offset here
-        (window as any).gsap.set(this.element, { x: this.x - offset, y: this.y - offset });
+          gsap.set(this.element, { x: this.x - offset, y: this.y - offset });
     } else {
         this.angleX += this.anglespeed;
         this.angleY += this.anglespeed;
         this.y = this.lockY + Math.sin(this.angleY) * this.range;
         this.x = this.lockX + Math.sin(this.angleX) * this.range;
         // And also apply the offset here for the idle animation
-        (window as any).gsap.set(this.element, { x: this.x - offset, y: this.y - offset });
+          gsap.set(this.element, { x: this.x - offset, y: this.y - offset });
     }
 }
   }
@@ -57,11 +57,7 @@ export const InkCursor = () => {
   
   useEffect(() => {
     // Access GSAP from the window object inside useEffect
-    const gsap = (window as any).gsap;
-    if (!gsap) {
-      console.error("GSAP not found. Make sure it is loaded.");
-      return;
-    }
+    
 
     const cursorElement = cursorRef.current;
     if (!cursorElement) return;
