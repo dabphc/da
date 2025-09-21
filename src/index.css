@@ -72,6 +72,9 @@
 }
 
 @layer components {
+ .hero-video-bg {
+    @apply absolute top-0 left-0 w-full h-full object-contain; /* Changed from object-fill */
+  }
   .member-card {
     @apply relative overflow-hidden rounded-lg bg-neutral-900 p-8 text-center transition-all duration-300;
     border: 1px solid transparent;
