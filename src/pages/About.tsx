@@ -36,7 +36,7 @@ const About = () => {
       {/* Hero Section */}
       <section className="pt-24 pb-12 px-6">
         <div className="container mx-auto text-center">
-          <h1 className="page-title">
+          <h1 className="page-title pb-3">
             About Designer Anonymous
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
