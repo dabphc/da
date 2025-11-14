@@ -82,7 +82,7 @@ const About = () => {
         <div className="container mx-auto text-center">
           <h1 className="page-title pb-3">About Designer Anonymous</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Designer's Anonymous is a dynamic design cub blending graphic
+            Designer's Anonymous is a dynamic design club blending graphic
             design, UI/UX design, 3D design and 2D animations. We organise
             workshops, competitions, guest lectures and portfolio reviews
             ensuring the creative growth of our members as well as promoting the
