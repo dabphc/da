@@ -4,28 +4,72 @@ import Footer from "@/components/Footer";
 const members = [
   {
     name: "Ritwik Sethi",
-    role: "Sec",
+    role: "Secretary",
   },
   {
-    name: "Aanya",
-    role: "jt. sec",
+    name: "Aanya Agarwal",
+    role: "Joint Secretary",
   },
   {
-    name: "x",
-    role: "Backend Developer",
+    name: "Dhruv Vadadoriya",
+    role: "Treasurer",
   },
   {
-    name: "y",
-    role: "UI/UX Designer",
+    name: "Sanchit Agrawal",
+    role: "Social Media Head",
   },
   {
-    name: "z",
-    role: "Project Manager",
+    name: "Ishan Arnepalli",
+    role: "Management Head",
   },
+
   {
-    name: "a",
-    role: "Graphic Designer",
+    name: "Sahil Salvee",
+    role: "DoTA STuCCan",
   },
+
+  {
+    name: "Ranjit",
+    role: "Web Dev Lead",
+  },
+
+  {
+    name: "Jatin Reddy",
+    role: "Web Dev + UI/UX",
+  },
+
+  {
+    name: "Prajwal P Belgaonkar",
+    role: "3D Design & Animations",
+  },
+
+  { name: "Raj Mittal", role: "Graphic Designer" },
+
+  { name: "Daksh Tamoli", role: "Graphic Designer" },
+  { name: "Yafa Rahman", role: "Graphic Designer" },
+  { name: "Krish Ghorse", role: "Graphic Designer" },
+  { name: "Mithil Astik", role: "Graphic Designer" },
+  { name: "Parth Bansal", role: "Graphic Designer" },
+  { name: "Vaibhav Saraf", role: "Events and Sponsorship Team" },
+  { name: "Anagha Pillalamarri", role: "Events and Sponsorship Team" },
+  { name: "Raj Parab", role: "2D Animator" },
+  { name: "Mihir Kumar", role: "Events Team" },
+  { name: "Larsh Vakil", role: "UI/UX Designer" },
+  { name: "Atharva Digraskar", role: "Graphic Designer" },
+  { name: "Rayan Das Gupta", role: "Graphic Designer" },
+  { name: "Naman Yerra", role: "Events and Sponsorship Team" },
+  { name: "Ishayu Joshi", role: "Events and Sponsorship Team" },
+  { name: "Lavanya Deepak Agarwal", role: "Graphic Designer" },
+  { name: "Avaneesh Amol Nisal", role: "3D Design and Animator" },
+  { name: "Manshi Surbhi", role: "Graphic Designer" },
+  { name: "Karthik Srirangapatnam", role: "Graphic Designer" },
+  { name: "Sachi Sree", role: "Graphic Designer" },
+  { name: "Saketh Reddy Chilakam", role: "2D Animations" },
+  { name: "R Shyam Sundar", role: "Graphic Designer" },
+  { name: "Vaibhav aggarwal", role: "Graphic Designer" },
+  { name: "Riya Baid", role: "Graphic Designer" },
+  { name: "Malhar", role: "Events and Screenings Team" },
+  { name: "Abhishek Gupta", role: "Graphic Designer" },
 ];
 
 const About = () => {
@@ -36,12 +80,13 @@ const About = () => {
       {/* Hero Section */}
       <section className="pt-24 pb-12 px-6">
         <div className="container mx-auto text-center">
-          <h1 className="page-title pb-3">
-            About Designer Anonymous
-          </h1>
+          <h1 className="page-title pb-3">About Designer Anonymous</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Designer's Anonymous is a dynamic design cub blending graphic
+            design, UI/UX design, 3D design and 2D animations. We organise
+            workshops, competitions, guest lectures and portfolio reviews
+            ensuring the creative growth of our members as well as promoting the
+            design culture at BITS Pilani Hyderabad Campus.
           </p>
         </div>
       </section>
@@ -54,17 +99,16 @@ const About = () => {
               <h2 className="text-4xl font-bold text-foreground">Our Story</h2>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vivamus lacinia odio vitae vestibulum vestibulum.
+                  Our story began with passion: to blend design disciplines with
+                  creativity which meets limitless exploration. We unite graphic
+                  design, UI/UX, 3D art, Photoshop, and Figma - teaching
+                  integrated skills through experiences no other club strives to
+                  provide.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  Cras venenatis euismod malesuada. Nullam ac erat ante. Integer
-                  feugiat, augue ac sollicitudin dictum, massa justo cursus
-                  urna, at dictum purus elit sed felis.
-                </p>
-                <p className="text-lg leading-relaxed">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque laudantium, totam rem aperiam.
+                  Through immersive events and reviews, members grow confidence,
+                  sharpen creativity, and discover design mastery beyond
+                  conventional boundaries.
                 </p>
               </div>
             </div>
@@ -75,8 +119,8 @@ const About = () => {
                   Our Philosophy
                 </h3>
                 <p className="text-muted-foreground">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Quisque sit amet accumsan tortor.
+                  Dedicated to design excellence, our club focuses on creativity
+                  and passion.
                 </p>
               </div>
 
@@ -115,8 +159,7 @@ const About = () => {
               Our Values
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              nec odio. Praesent libero.
+              Teamwork, integrity, imagination shape our guiding principles.
             </p>
           </div>
 
@@ -129,8 +172,9 @@ const About = () => {
                 Collaboration
               </h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Connecting minds, sharing perspectives, cultivating trust,
+                encouraging teamwork, expanding ideas, and continuously building
+                stronger creative communities together.
               </p>
             </div>
 
@@ -140,8 +184,9 @@ const About = () => {
               </div>
               <h3 className="text-xl font-bold text-foreground">Innovation</h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco.
+                Transforming ideas, exploring possibilities, advancing design
+                methods, integrating technology, inspiring originality, and
+                continuously redefining creative boundaries together.
               </p>
             </div>
 
@@ -149,10 +194,13 @@ const About = () => {
               <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
                 <span className="text-2xl">❤️</span>
               </div>
-              <h3 className="text-xl font-bold text-foreground">Authenticity</h3>
+              <h3 className="text-xl font-bold text-foreground">
+                Authenticity
+              </h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                aute irure dolor in reprehenderit in voluptate.
+                Honoring truth, expressing genuine voices, building trust,
+                valuing transparency, embracing uniqueness, and continuously
+                strengthening meaningful creative connections together.
               </p>
             </div>
           </div>
