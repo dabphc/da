@@ -15,17 +15,42 @@ const members = [
     role: "Backend Developer",
   },
   {
-    name: "y",
-    role: "UI/UX Designer",
+    name: "Jatin Reddy",
+    role: "Web Dev + UI/UX",
   },
+
   {
-    name: "z",
-    role: "Project Manager",
+    name: "Prajwal P Belgaonkar",
+    role: "3D Design & Animations",
   },
-  {
-    name: "a",
-    role: "Graphic Designer",
-  },
+
+  { name: "Raj Mittal", role: "Graphic Designer" },
+
+  { name: "Daksh Tamoli", role: "Graphic Designer" },
+  { name: "Yafa Rahman", role: "Graphic Designer" },
+  { name: "Krish Ghorse", role: "Graphic Designer" },
+  { name: "Mithil Astik", role: "Graphic Designer" },
+  { name: "Parth Bansal", role: "Graphic Designer" },
+  { name: "Vaibhav Saraf", role: "Events and Sponsorship Team" },
+  { name: "Anagha Pillalamarri", role: "Events and Sponsorship Team" },
+  { name: "Raj Parab", role: "2D Animator" },
+  { name: "Mihir Kumar", role: "Events Team" },
+  { name: "Larsh Vakil", role: "UI/UX Designer" },
+  { name: "Atharva Digraskar", role: "Graphic Designer" },
+  { name: "Rayan Das Gupta", role: "Graphic Designer" },
+  { name: "Naman Yerra", role: "Events and Sponsorship Team" },
+  { name: "Ishayu Joshi", role: "Events and Sponsorship Team" },
+  { name: "Lavanya Deepak Agarwal", role: "Graphic Designer" },
+  { name: "Avaneesh Amol Nisal", role: "3D Design and Animator" },
+  { name: "Manshi Surbhi", role: "Graphic Designer" },
+  { name: "Karthik Srirangapatnam", role: "Graphic Designer" },
+  { name: "Sachi Sree", role: "Graphic Designer" },
+  { name: "Saketh Reddy Chilakam", role: "2D Animations" },
+  { name: "R Shyam Sundar", role: "Graphic Designer" },
+  { name: "Vaibhav aggarwal", role: "Graphic Designer" },
+  { name: "Riya Baid", role: "Graphic Designer" },
+  { name: "Malhar", role: "Graphic Designer" },
+  { name: "Abhishek Gupta", role: "Graphic Designer" },
 ];
 
 const About = () => {
