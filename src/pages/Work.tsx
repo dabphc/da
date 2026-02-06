@@ -1,142 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { Instagram } from "lucide-react";
-
-interface WorkItem {
-  id: number;
-  category: "Graphic" | "UI/UX" | "3D";
-  image: string;
-  name: string;
-  instaLink: string;
-}
-
-// Use direct paths for public folder images
-const workItems: WorkItem[] = [
-  {
-    id: 1,
-    category: "Graphic",
-    image: "/images/active/1.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 2,
-    category: "UI/UX",
-    image: "/images/active/2.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 3,
-    category: "Graphic",
-    image: "/images/active/3.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 4,
-    category: "UI/UX",
-    image: "/images/active/4.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 5,
-    category: "3D",
-    image: "/images/active/5.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 6,
-    category: "3D",
-    image: "/images/active/6.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 7,
-    category: "UI/UX",
-    image: "/images/active/7.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 8,
-    category: "UI/UX",
-    image: "/images/active/8.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 9,
-    category: "3D",
-    image: "/images/active/9.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 10,
-    category: "3D",
-    image: "/images/active/10.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 11,
-    category: "3D",
-    image: "/images/active/11.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 12,
-    category: "3D",
-    image: "/images/active/12.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 13,
-    category: "3D",
-    image: "/images/active/13.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 14,
-    category: "3D",
-    image: "/images/active/14.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 15,
-    category: "Graphic",
-    image: "/images/active/15.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-  {
-    id: 16,
-    category: "Graphic",
-    image: "/images/active/16.webp",
-    name: "Ranjit",
-    instaLink: "https://www.instagram.com/_ranjit_choudhary_/",
-  },
-];
+import { supabase } from "@/lib/supabase";
+import { Project } from "@/types";
 
 const categories = ["All", "Graphic", "UI/UX", "3D"] as const;
 
 const Work = () => {
-  const [activeFilter, setActiveFilter] = useState<
-    (typeof categories)[number]
-  >("All");
+  const [activeFilter, setActiveFilter] = useState<(typeof categories)[number]>("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredItems =
-    activeFilter === "All"
-      ? workItems
-      : workItems.filter((item) => item.category === activeFilter);
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+    
+    if (!error && data) {
+      setProjects(data);
+    }
+    setLoading(false);
+  };
+
+  const filteredItems = activeFilter === "All"
+    ? projects
+    : projects.filter((item) => item.category === activeFilter);
 
   return (
     <div className="min-h-screen bg-background">
@@ -176,27 +71,38 @@ const Work = () => {
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={item.image_url}
+                  alt={item.title}
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
-                  <a
-                    href={item.instaLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-gray-300 transition-colors"
-                  >
-                    <Instagram size={24} />
-                  </a>
-                  <span className="text-white font-semibold">{item.name}</span>
+                  {item.instagram_link && (
+                    <a
+                      href={item.instagram_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-gray-300 transition-colors"
+                    >
+                      <Instagram size={24} />
+                    </a>
+                  )}
+                  <div className="text-right">
+                    <span className="text-white font-semibold block">{item.title}</span>
+                    <span className="text-white/80 text-sm">by {item.creator_name || 'Anonymous'}</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {filteredItems.length === 0 && !loading && (
+            <p className="text-center text-muted-foreground py-12">No approved projects found in this category yet.</p>
+          )}
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

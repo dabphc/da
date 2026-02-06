@@ -10,10 +10,13 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login"; // Import Login
 import Admin from "./pages/Admin"; // Import Admin
+import MemberDashboard from "./pages/MemberDashboard"; // Import MemberDashboard
 import ScrollToTop from "./components/ScrollToTop";
 import { InkCursor } from "./components/InkCursor";
 import { useIsMobile } from "./hooks/use-mobile";
 import Events from "./pages/Events";
+
+import EventResources from "./pages/EventResources";
 
 const queryClient = new QueryClient();
 
@@ -34,10 +37,12 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/events/:id/resources" element={<EventResources />} />
             
             {/* Admin Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/dashboard" element={<MemberDashboard />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
