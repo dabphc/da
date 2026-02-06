@@ -65,8 +65,9 @@ const About = () => {
             About Designer Anonymous
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            A dynamic design hub where graphic design, UI/UX, 3D art, and digital craft converge. 
+            We cultivate creativity through immersive workshops, competitive challenges, expert lectures, 
+            and personalized portfolio reviews—fostering creative growth beyond conventional boundaries.
           </p>
         </div>
       </section>
@@ -79,17 +80,19 @@ const About = () => {
               <h2 className="text-4xl font-bold text-foreground">Our Story</h2>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vivamus lacinia odio vitae vestibulum vestibulum.
+                  Our journey began with a simple yet powerful vision: to create a space where 
+                  diverse design disciplines unite and creativity knows no bounds. We saw the need 
+                  for a community that transcends traditional design silos.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  Cras venenatis euismod malesuada. Nullam ac erat ante. Integer
-                  feugiat, augue ac sollicitudin dictum, massa justo cursus
-                  urna, at dictum purus elit sed felis.
+                  Designer Anonymous brings together graphic design, UI/UX, 3D art, and digital tools 
+                  like Photoshop and Figma—not as separate entities, but as interconnected disciplines. 
+                  We provide integrated learning experiences that go beyond what any other club offers.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque laudantium, totam rem aperiam.
+                  Through hands-on workshops, competitive showcases, insightful lectures, and constructive 
+                  portfolio reviews, our members build confidence, refine their craft, and discover their 
+                  unique creative voice in an environment that celebrates exploration and mastery.
                 </p>
               </div>
             </div>
@@ -100,8 +103,8 @@ const About = () => {
                   Our Philosophy
                 </h3>
                 <p className="text-muted-foreground">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Quisque sit amet accumsan tortor.
+                  We are unwavering in our commitment to design excellence. Our singular focus 
+                  is creativity—nurturing it, challenging it, and celebrating it in all its forms.
                 </p>
               </div>
 
@@ -140,8 +143,8 @@ const About = () => {
               Our Values
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              nec odio. Praesent libero.
+              Teamwork, integrity, and imagination form the foundation of everything we do—
+              guiding principles that shape our community and creative culture.
             </p>
           </div>
 
@@ -154,8 +157,9 @@ const About = () => {
                 Collaboration
               </h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                We believe in the power of collective creativity—connecting minds, sharing diverse 
+                perspectives, and building trust. Through collaboration, we encourage teamwork that 
+                expands ideas and strengthens our creative community.
               </p>
             </div>
 
@@ -165,8 +169,9 @@ const About = () => {
               </div>
               <h3 className="text-xl font-bold text-foreground">Innovation</h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco.
+                Innovation drives us to transform ideas into reality. We explore new possibilities, 
+                advance design methodologies, integrate cutting-edge technology, and inspire originality—
+                continuously redefining creative boundaries together.
               </p>
             </div>
 
@@ -176,8 +181,9 @@ const About = () => {
               </div>
               <h3 className="text-xl font-bold text-foreground">Authenticity</h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                aute irure dolor in reprehenderit in voluptate.
+                Authenticity means honoring truth and expressing genuine voices. We build trust through 
+                transparency, value uniqueness, and embrace individuality—strengthening meaningful 
+                creative connections in everything we create.
               </p>
             </div>
           </div>
