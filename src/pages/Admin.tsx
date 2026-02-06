@@ -190,10 +190,36 @@ const Admin = () => {
       return;
     }
 
-    // Find user by email in auth.users
+    // If editing existing member, just update
+    if (editingMember) {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: memberData.full_name,
+          role: memberData.role,
+          club_role: memberData.club_role,
+          skills: memberData.skills,
+          software: memberData.software,
+          is_active: true
+        })
+        .eq('id', editingMember.id);
+
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Member updated");
+        setIsMemberDialogOpen(false);
+        setEditingMember(null);
+        setNewMember({ email: '', full_name: '', role: 'member', club_role: '', skills: [], software: [] });
+        fetchMembers();
+      }
+      return;
+    }
+
+    // For new members, check if they exist
     const { data: authUser, error: authError } = await supabase
       .from('profiles')
-      .select('id')
+      .select('id, role')
       .eq('email', memberData.email)
       .maybeSingle();
 
@@ -202,13 +228,15 @@ const Admin = () => {
       return;
     }
 
-    if (!authUser && !editingMember) {
-      toast.error("User with this email hasn't logged in yet. They need to login once with Google first.");
+    if (!authUser) {
+      toast.error(
+        "User hasn't logged in yet. Ask them to:\n1. Go to the login page\n2. Click 'Sign in with Google'\n3. They'll be blocked (expected)\n4. Come back here and promote them!",
+        { duration: 8000 }
+      );
       return;
     }
 
-    const userId = editingMember ? editingMember.id : authUser.id;
-
+    // User exists, promote them
     const { error } = await supabase
       .from('profiles')
       .update({
@@ -219,14 +247,13 @@ const Admin = () => {
         software: memberData.software,
         is_active: true
       })
-      .eq('id', userId);
+      .eq('id', authUser.id);
 
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success(editingMember ? "Member updated" : "Member added");
+      toast.success("Member added successfully!");
       setIsMemberDialogOpen(false);
-      setEditingMember(null);
       setNewMember({ email: '', full_name: '', role: 'member', club_role: '', skills: [], software: [] });
       fetchMembers();
     }
