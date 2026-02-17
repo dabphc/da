@@ -569,7 +569,7 @@ const Admin = () => {
                             <TableRow key={project.id}>
                                 <TableCell>
                                     <div className="h-12 w-12 rounded overflow-hidden">
-                                        <img src={project.image_url} alt={project.title} className="h-full w-full object-cover" />
+                                        <img src={getDirectImageUrl(project.image_url)} alt={project.title} className="h-full w-full object-cover" />
                                     </div>
                                 </TableCell>
                                 <TableCell className="font-medium">{project.title}</TableCell>
@@ -597,7 +597,7 @@ const Admin = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {projects.filter(p => p.status === 'approved').map(p => (
                         <div key={p.id} className="relative group rounded-md overflow-hidden aspect-square border">
-                             <img src={p.image_url} alt={p.title} className="w-full h-full object-cover" />
+                             <img src={getDirectImageUrl(p.image_url)} alt={p.title} className="w-full h-full object-cover" />
                              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                                 <Button variant="destructive" size="sm" onClick={() => handleUpdateProjectStatus(p.id, 'rejected')}>Reject</Button>
                              </div>
