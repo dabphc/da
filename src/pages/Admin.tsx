@@ -184,6 +184,7 @@ const Admin = () => {
   // --- Members Logic ---
   const handleAddOrUpdateMember = async () => {
     const memberData = editingMember || newMember;
+    const role = memberData.role || 'member';
     
     if (!memberData.email || !memberData.full_name) {
       toast.error("Email and full name are required");
@@ -196,7 +197,7 @@ const Admin = () => {
         .from('profiles')
         .update({
           full_name: memberData.full_name,
-          role: memberData.role,
+          role: role,
           club_role: memberData.club_role,
           skills: memberData.skills,
           software: memberData.software,
@@ -241,7 +242,7 @@ const Admin = () => {
       .from('profiles')
       .update({
         full_name: memberData.full_name,
-        role: memberData.role,
+        role: role,
         club_role: memberData.club_role,
         skills: memberData.skills,
         software: memberData.software,
@@ -715,7 +716,10 @@ const Admin = () => {
                             size="sm" 
                             variant="outline"
                             onClick={() => {
-                              setEditingMember(member);
+                              setEditingMember({
+                                ...member,
+                                role: member.role || 'member'
+                              });
                               setIsMemberDialogOpen(true);
                             }}
                           >
