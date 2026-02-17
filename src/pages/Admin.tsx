@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Project, Event, EventResource } from "@/types";
 import { Plus, Trash2, Check, X, ExternalLink } from "lucide-react";
+import { cn, getDirectImageUrl } from "@/lib/utils";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -437,9 +438,9 @@ const Admin = () => {
                                     }}
                                     className="cursor-pointer"
                                 />
-                                {(eventImagePreview || (editingEvent && editingEvent.image_url)) && (
+                                {(eventImagePreview || (editingEvent && (editingEvent.image_url || eventImagePreview))) && (
                                     <div className="mt-2 relative w-full h-32 rounded-md overflow-hidden border">
-                                        <img src={eventImagePreview || editingEvent?.image_url} alt="Preview" className="w-full h-full object-cover" />
+                                        <img src={eventImagePreview || (editingEvent ? getDirectImageUrl(editingEvent.image_url) : "")} alt="Preview" className="w-full h-full object-cover" />
                                     </div>
                                 )}
                                 <div className="text-xs text-muted-foreground mt-2">Or paste an image URL:</div>
@@ -658,6 +659,11 @@ const Admin = () => {
                                     <img src={resourceImagePreview} alt="Preview" className="w-full h-full object-cover" />
                                 </div>
                             )}
+                            {!resourceImagePreview && newResource.image_url && (
+                                <div className="mt-2 relative w-full h-32 rounded-md overflow-hidden border">
+                                    <img src={getDirectImageUrl(newResource.image_url)} alt="Preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
                             <div className="text-xs text-muted-foreground mt-2">Or paste an image URL:</div>
                             <Input 
                                 placeholder="https://..." 
@@ -685,7 +691,7 @@ const Admin = () => {
                                         <div className="flex gap-3 items-center">
                                             {res.image_url && (
                                                 <div className="h-10 w-10 rounded overflow-hidden border">
-                                                    <img src={res.image_url} alt="" className="h-full w-full object-cover" />
+                                                    <img src={getDirectImageUrl(res.image_url)} alt="" className="h-full w-full object-cover" />
                                                 </div>
                                             )}
                                             <div>

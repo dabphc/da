@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Loader2, Plus, LogOut, CheckCircle, Clock, XCircle } from "lucide-react";
+import { getDirectImageUrl } from "@/lib/utils";
 
 const MemberDashboard = () => {
   const navigate = useNavigate();
@@ -206,6 +207,11 @@ const MemberDashboard = () => {
                                     <img src={projectImagePreview} alt="Preview" className="w-full h-full object-cover" />
                                 </div>
                             )}
+                            {!projectImagePreview && newProject.image_url && (
+                                <div className="mt-2 relative w-full h-32 rounded-md overflow-hidden border">
+                                    <img src={getDirectImageUrl(newProject.image_url)} alt="Preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
                             <div className="text-xs text-muted-foreground">Or paste an image URL below:</div>
                             <Input 
                                 id="imageUrl" 
@@ -251,7 +257,7 @@ const MemberDashboard = () => {
                         <TableRow key={project.id}>
                             <TableCell>
                                 <div className="h-12 w-12 rounded overflow-hidden bg-gray-100">
-                                    <img src={project.image_url} alt={project.title} className="h-full w-full object-cover" />
+                                    <img src={getDirectImageUrl(project.image_url)} alt={project.title} className="h-full w-full object-cover" />
                                 </div>
                             </TableCell>
                             <TableCell className="font-medium">{project.title}</TableCell>

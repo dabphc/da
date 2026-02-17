@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Instagram } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Project } from "@/types";
+import { getDirectImageUrl } from "@/lib/utils";
 
 const categories = ["All", "Graphic", "UI/UX", "3D"] as const;
 
@@ -71,7 +72,7 @@ const Work = () => {
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <img
-                  src={item.image_url}
+                  src={getDirectImageUrl(item.image_url)}
                   alt={item.title}
                   loading="lazy"
                   className="w-full h-full object-cover"

@@ -7,6 +7,7 @@ import { Event, EventResource } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, ArrowLeft, FileText, Video, Link as LinkIcon } from "lucide-react";
+import { getDirectImageUrl } from "@/lib/utils";
 
 const EventResources = () => {
   const { id } = useParams<{ id: string }>();
@@ -74,7 +75,7 @@ const EventResources = () => {
                                 {res.image_url && (
                                     <div className="relative aspect-video overflow-hidden">
                                         <img 
-                                            src={res.image_url} 
+                                            src={getDirectImageUrl(res.image_url)} 
                                             alt={res.title} 
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                         />
