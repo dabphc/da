@@ -109,7 +109,7 @@ const Hero = () => {
             }`}
           >
             <p className="hero-subtitle fade-in-delayed text-center">
-              A creative design club at BITS Pilani Hyderabad Campus.
+              The design club at BITS Pilani Hyderabad Campus.
             </p>
           </div>
         </>
