@@ -100,11 +100,13 @@ const EventResources = () => {
                                         <div className="text-[10px] text-muted-foreground">
                                             Added {new Date(res.created_at).toLocaleDateString()}
                                         </div>
-                                        <Button size="sm" variant="outline" className="h-8 rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground group-hover:border-primary/50" asChild>
-                                            <a href={res.link} target="_blank" rel="noopener noreferrer">
-                                                Open <ExternalLink className="ml-1.5 h-3 w-3" />
-                                            </a>
-                                        </Button>
+                                        {res.link && (
+                                            <Button size="sm" variant="outline" className="h-8 rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground group-hover:border-primary/50" asChild>
+                                                <a href={res.link} target="_blank" rel="noopener noreferrer">
+                                                    Open <ExternalLink className="ml-1.5 h-3 w-3" />
+                                                </a>
+                                            </Button>
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>

@@ -12,7 +12,8 @@ import { supabase } from "@/lib/supabase";
 import { Event } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Calendar, MapPin } from "lucide-react";
+import { getDirectImageUrl } from "@/lib/utils";
 
 
 
@@ -40,24 +41,36 @@ const Events = () => {
 
   const EventCard = ({ event }: { event: Event }) => {
     return (
-      <Card className="overflow-hidden transition-transform transform hover:scale-105 h-full flex flex-col">
+      <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl group h-fit break-inside-avoid mb-8 border-border/50 bg-card/50 backdrop-blur-sm">
         {event.image_url && (
-            <img
-            src={event.image_url}
-            alt={event.title}
-            className="w-full h-48 object-cover"
-            />
+            <div className="relative overflow-hidden">
+                <img
+                src={getDirectImageUrl(event.image_url)}
+                alt={event.title}
+                className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
+                />
+            </div>
         )}
-        <CardHeader>
-          <CardTitle>{event.title}</CardTitle>
-          <CardDescription>
-            {new Date(event.date).toLocaleDateString()}
-            {event.location && ` • ${event.location}`}
-          </CardDescription>
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-xl group-hover:text-primary transition-colors">{event.title}</CardTitle>
+          <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+                <Calendar className="h-3.5 w-3.5" />
+                {new Date(event.date).toLocaleDateString(undefined, { dateStyle: 'long' })}
+            </div>
+            {event.location && (
+                <div className="flex items-center gap-1.5">
+                    <MapPin className="h-3.5 w-3.5" />
+                    {event.location}
+                </div>
+            )}
+          </div>
         </CardHeader>
-        <CardContent className="flex-grow flex flex-col justify-between">
-          <p className="text-muted-foreground mb-4">{event.description}</p>
-          <Button variant="outline" className="w-full" onClick={() => navigate(`/events/${event.id}/resources`)}>
+        <CardContent>
+          <p className="text-muted-foreground text-sm line-clamp-3 mb-6 leading-relaxed">
+            {event.description}
+          </p>
+          <Button variant="outline" className="w-full rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300" onClick={() => navigate(`/events/${event.id}/resources`)}>
             <ExternalLink className="w-4 h-4 mr-2" /> View Resources
           </Button>
         </CardContent>
@@ -88,7 +101,7 @@ const Events = () => {
             {loading ? (
                 <p>Loading events...</p>
             ) : upcomingEvents.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
                     {upcomingEvents.map((event) => <EventCard key={event.id} event={event} />)}
                 </div>
             ) : (
@@ -102,7 +115,7 @@ const Events = () => {
             {loading ? (
                 <p>Loading events...</p>
             ) : pastEvents.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
                     {pastEvents.map((event) => <EventCard key={event.id} event={event} />)}
                 </div>
             ) : (

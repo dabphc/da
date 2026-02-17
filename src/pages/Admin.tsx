@@ -196,8 +196,8 @@ const Admin = () => {
 
   // --- Resources Logic ---
   const handleAddResource = async () => {
-    if (!newResource.title || !newResource.link || !newResource.event_id) {
-        toast.error("Title, Link, and Event are required");
+    if (!newResource.title || !newResource.event_id) {
+        toast.error("Title and Event are required");
         return;
     }
 
@@ -484,6 +484,11 @@ const Admin = () => {
                         {upcomingEvents.length > 0 ? upcomingEvents.map(event => (
                             <Card key={event.id} className="group hover:border-accent/50 transition-colors">
                                 <CardHeader className="pb-3">
+                                    {event.image_url && (
+                                        <div className="mb-3 rounded-md overflow-hidden aspect-video border bg-muted">
+                                            <img src={getDirectImageUrl(event.image_url)} alt="" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
                                     <CardTitle className="truncate">{event.title}</CardTitle>
                                     <CardDescription>{new Date(event.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</CardDescription>
                                 </CardHeader>
@@ -517,6 +522,11 @@ const Admin = () => {
                         {pastEvents.length > 0 ? pastEvents.map(event => (
                             <Card key={event.id}>
                                 <CardHeader className="pb-3">
+                                    {event.image_url && (
+                                        <div className="mb-3 rounded-md overflow-hidden aspect-video border bg-muted">
+                                            <img src={getDirectImageUrl(event.image_url)} alt="" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
                                     <CardTitle className="truncate">{event.title}</CardTitle>
                                     <CardDescription>{new Date(event.date).toLocaleDateString()}</CardDescription>
                                 </CardHeader>

@@ -24,7 +24,7 @@ export type EventResource = {
     id: number;
     event_id: number;
     title: string;
-    link: string;
+    link?: string;
     type: string;
     image_url?: string;
     created_at: string;
