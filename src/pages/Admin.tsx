@@ -22,17 +22,23 @@ const Admin = () => {
   
   // Data States
   const [events, setEvents] = useState<Event[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [pastEvents, setPastEvents] = useState<Event[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [resources, setResources] = useState<EventResource[]>([]);
   const [members, setMembers] = useState<any[]>([]);
 
   // Form States
   const [newEvent, setNewEvent] = useState<Partial<Event>>({});
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [newResource, setNewResource] = useState<Partial<EventResource>>({});
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [eventImageFile, setEventImageFile] = useState<File | null>(null);
   const [eventImagePreview, setEventImagePreview] = useState<string | null>(null);
+  const [resourceImageFile, setResourceImageFile] = useState<File | null>(null);
+  const [resourceImagePreview, setResourceImagePreview] = useState<string | null>(null);
   const [isUploadingEvent, setIsUploadingEvent] = useState(false);
+  const [isUploadingResource, setIsUploadingResource] = useState(false);
   
   // Member Management States
   const [isMemberDialogOpen, setIsMemberDialogOpen] = useState(false);
@@ -82,7 +88,14 @@ const Admin = () => {
   const fetchEvents = async () => {
     const { data, error } = await supabase.from('events').select('*').order('date', { ascending: false });
     if (error) toast.error("Error fetching events");
-    else setEvents(data || []);
+    else {
+      const allEvents = data || [];
+      setEvents(allEvents);
+      
+      const now = new Date();
+      setUpcomingEvents(allEvents.filter(e => new Date(e.date) >= now).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+      setPastEvents(allEvents.filter(e => new Date(e.date) < now));
+    }
   };
 
   const fetchProjects = async () => {
@@ -110,14 +123,15 @@ const Admin = () => {
   };
 
   // --- Events Logic ---
-  const handleCreateEvent = async () => {
-    if (!newEvent.title || !newEvent.date) {
+  const handleCreateOrUpdateEvent = async () => {
+    const eventData = editingEvent || newEvent;
+    if (!eventData.title || !eventData.date) {
         toast.error("Title and Date are required");
         return;
     }
     
     setIsUploadingEvent(true);
-    let imageUrl = newEvent.image_url;
+    let imageUrl = eventData.image_url;
     
     // Upload image file if provided
     if (eventImageFile) {
@@ -131,16 +145,30 @@ const Admin = () => {
       }
     }
     
-    const { error } = await supabase.from('events').insert([{ ...newEvent, image_url: imageUrl }]);
-    if (error) {
-        toast.error(error.message);
+    if (editingEvent) {
+      const { error } = await supabase.from('events').update({ ...eventData, image_url: imageUrl }).eq('id', editingEvent.id);
+      if (error) {
+          toast.error(error.message);
+      } else {
+          toast.success("Event updated successfully");
+          setIsEventDialogOpen(false);
+          setEditingEvent(null);
+          setEventImageFile(null);
+          setEventImagePreview(null);
+          fetchEvents();
+      }
     } else {
-        toast.success("Event created successfully");
-        setIsEventDialogOpen(false);
-        setNewEvent({});
-        setEventImageFile(null);
-        setEventImagePreview(null);
-        fetchEvents();
+      const { error } = await supabase.from('events').insert([{ ...newEvent, image_url: imageUrl }]);
+      if (error) {
+          toast.error(error.message);
+      } else {
+          toast.success("Event created successfully");
+          setIsEventDialogOpen(false);
+          setNewEvent({});
+          setEventImageFile(null);
+          setEventImagePreview(null);
+          fetchEvents();
+      }
     }
     setIsUploadingEvent(false);
   };
@@ -171,13 +199,32 @@ const Admin = () => {
         toast.error("Title, Link, and Event are required");
         return;
     }
-    const { error } = await supabase.from('event_resources').insert([newResource]);
-    if (error) toast.error(error.message);
-    else {
+
+    setIsUploadingResource(true);
+    let imageUrl = newResource.image_url;
+
+    if (resourceImageFile) {
+        const { uploadImage } = await import('@/lib/uploadImage');
+        const uploadedUrl = await uploadImage(resourceImageFile);
+        if (uploadedUrl) {
+            imageUrl = uploadedUrl;
+        } else {
+            setIsUploadingResource(false);
+            return;
+        }
+    }
+
+    const { error } = await supabase.from('event_resources').insert([{ ...newResource, image_url: imageUrl }]);
+    if (error) {
+        toast.error(error.message);
+    } else {
         toast.success("Resource added");
         setNewResource({});
+        setResourceImageFile(null);
+        setResourceImagePreview(null);
         fetchResources();
     }
+    setIsUploadingResource(false);
   };
 
 
@@ -314,31 +361,62 @@ const Admin = () => {
             <TabsTrigger value="members">Members</TabsTrigger>
           </TabsList>
 
-          {/* EVENTS TAB */}
-          <TabsContent value="events" className="space-y-4">
+          <TabsContent value="events" className="space-y-8">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">All Events</h2>
-                <Dialog open={isEventDialogOpen} onOpenChange={setIsEventDialogOpen}>
+                <h2 className="text-xl font-semibold">Events Management</h2>
+                <Dialog open={isEventDialogOpen} onOpenChange={(open) => {
+                    setIsEventDialogOpen(open);
+                    if (!open) {
+                        setEditingEvent(null);
+                        setNewEvent({});
+                        setEventImageFile(null);
+                        setEventImagePreview(null);
+                    }
+                }}>
                     <DialogTrigger asChild>
-                        <Button><Plus className="mr-2 h-4 w-4"/> Add Event</Button>
+                        <Button onClick={() => {
+                            setEditingEvent(null);
+                            setNewEvent({});
+                        }}><Plus className="mr-2 h-4 w-4"/> Add Event</Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Add New Event</DialogTitle>
-                            <DialogDescription>Create a new workshop, hackathon, or talk.</DialogDescription>
+                            <DialogTitle>{editingEvent ? 'Edit Event' : 'Add New Event'}</DialogTitle>
+                            <DialogDescription>
+                                {editingEvent ? 'Update event details.' : 'Create a new workshop, hackathon, or talk.'}
+                            </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="title">Title</Label>
-                                <Input id="title" value={newEvent.title || ""} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
+                                <Input 
+                                    id="title" 
+                                    value={editingEvent ? editingEvent.title : (newEvent.title || "")} 
+                                    onChange={(e) => editingEvent 
+                                        ? setEditingEvent({...editingEvent, title: e.target.value})
+                                        : setNewEvent({...newEvent, title: e.target.value})} 
+                                />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="date">Date</Label>
-                                <Input id="date" type="datetime-local" value={newEvent.date || ""} onChange={(e) => setNewEvent({...newEvent, date: e.target.value})} />
+                                <Input 
+                                    id="date" 
+                                    type="datetime-local" 
+                                    value={editingEvent ? (editingEvent.date ? editingEvent.date.slice(0, 16) : "") : (newEvent.date || "")} 
+                                    onChange={(e) => editingEvent
+                                        ? setEditingEvent({...editingEvent, date: e.target.value})
+                                        : setNewEvent({...newEvent, date: e.target.value})} 
+                                />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="location">Location</Label>
-                                <Input id="location" value={newEvent.location || ""} onChange={(e) => setNewEvent({...newEvent, location: e.target.value})} />
+                                <Input 
+                                    id="location" 
+                                    value={editingEvent ? editingEvent.location : (newEvent.location || "")} 
+                                    onChange={(e) => editingEvent
+                                        ? setEditingEvent({...editingEvent, location: e.target.value})
+                                        : setNewEvent({...newEvent, location: e.target.value})} 
+                                />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="eventImage">Event Image</Label>
@@ -359,51 +437,108 @@ const Admin = () => {
                                     }}
                                     className="cursor-pointer"
                                 />
-                                {eventImagePreview && (
+                                {(eventImagePreview || (editingEvent && editingEvent.image_url)) && (
                                     <div className="mt-2 relative w-full h-32 rounded-md overflow-hidden border">
-                                        <img src={eventImagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                        <img src={eventImagePreview || editingEvent?.image_url} alt="Preview" className="w-full h-full object-cover" />
                                     </div>
                                 )}
-                                <div className="text-xs text-muted-foreground">Or paste an image URL below:</div>
+                                <div className="text-xs text-muted-foreground mt-2">Or paste an image URL:</div>
                                 <Input 
                                     id="imageUrl" 
                                     placeholder="https://..." 
-                                    value={newEvent.image_url || ""} 
-                                    onChange={(e) => setNewEvent({...newEvent, image_url: e.target.value})} 
+                                    value={editingEvent ? (editingEvent.image_url || "") : (newEvent.image_url || "")} 
+                                    onChange={(e) => editingEvent
+                                        ? setEditingEvent({...editingEvent, image_url: e.target.value})
+                                        : setNewEvent({...newEvent, image_url: e.target.value})} 
                                 />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="desc">Description</Label>
-                                <Textarea id="desc" value={newEvent.description || ""} onChange={(e) => setNewEvent({...newEvent, description: e.target.value})} />
+                                <Textarea 
+                                    id="desc" 
+                                    value={editingEvent ? editingEvent.description : (newEvent.description || "")} 
+                                    onChange={(e) => editingEvent
+                                        ? setEditingEvent({...editingEvent, description: e.target.value})
+                                        : setNewEvent({...newEvent, description: e.target.value})} 
+                                />
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button onClick={handleCreateEvent} disabled={isUploadingEvent}>
+                            <Button onClick={handleCreateOrUpdateEvent} disabled={isUploadingEvent}>
                                 {isUploadingEvent && <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-foreground"></div>}
-                                {isUploadingEvent ? 'Creating...' : 'Create Event'}
+                                {isUploadingEvent ? (editingEvent ? 'Updating...' : 'Creating...') : (editingEvent ? 'Update Event' : 'Create Event')}
                             </Button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
             </div>
             
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {events.map(event => (
-                    <Card key={event.id}>
-                        <CardHeader>
-                            <CardTitle className="truncate">{event.title}</CardTitle>
-                            <CardDescription>{new Date(event.date).toLocaleDateString()}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-sm text-gray-500 line-clamp-2">{event.description}</p>
-                            <div className="mt-4 flex justify-end">
-                                <Button variant="destructive" size="sm" onClick={() => handleDeleteEvent(event.id)}>
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+            <div className="space-y-8">
+                <div>
+                    <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                        Upcoming Events
+                    </h3>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {upcomingEvents.length > 0 ? upcomingEvents.map(event => (
+                            <Card key={event.id} className="group hover:border-accent/50 transition-colors">
+                                <CardHeader className="pb-3">
+                                    <CardTitle className="truncate">{event.title}</CardTitle>
+                                    <CardDescription>{new Date(event.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">{event.description}</p>
+                                    <div className="mt-4 flex justify-end gap-2">
+                                        <Button variant="outline" size="sm" onClick={() => {
+                                            setEditingEvent(event);
+                                            setIsEventDialogOpen(true);
+                                        }}>
+                                            Edit
+                                        </Button>
+                                        <Button variant="destructive" size="sm" onClick={() => handleDeleteEvent(event.id)}>
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )) : (
+                            <p className="text-sm text-muted-foreground italic col-span-full py-4 text-center border rounded-lg border-dashed">No upcoming events scheduled.</p>
+                        )}
+                    </div>
+                </div>
+
+                <div>
+                    <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-gray-400"></span>
+                        Past Events
+                    </h3>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 opacity-80">
+                        {pastEvents.length > 0 ? pastEvents.map(event => (
+                            <Card key={event.id}>
+                                <CardHeader className="pb-3">
+                                    <CardTitle className="truncate">{event.title}</CardTitle>
+                                    <CardDescription>{new Date(event.date).toLocaleDateString()}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-sm text-muted-foreground line-clamp-2 min-h-[2.5rem]">{event.description}</p>
+                                    <div className="mt-4 flex justify-end gap-2">
+                                        <Button variant="outline" size="sm" onClick={() => {
+                                            setEditingEvent(event);
+                                            setIsEventDialogOpen(true);
+                                        }}>
+                                            Edit
+                                        </Button>
+                                        <Button variant="destructive" size="sm" onClick={() => handleDeleteEvent(event.id)}>
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )) : (
+                            <p className="text-sm text-muted-foreground italic col-span-full py-4 text-center border rounded-lg border-dashed">No past events found.</p>
+                        )}
+                    </div>
+                </div>
             </div>
           </TabsContent>
 
@@ -491,7 +626,7 @@ const Admin = () => {
                                 </SelectContent>
                             </Select>
                         </div>
-                         <div className="grid gap-2">
+                        <div className="grid gap-2">
                             <Label>Title</Label>
                             <Input placeholder="e.g. Slides, Recording" value={newResource.title || ""} onChange={(e) => setNewResource({...newResource, title: e.target.value})} />
                         </div>
@@ -499,7 +634,41 @@ const Admin = () => {
                             <Label>Link URL</Label>
                             <Input placeholder="https://..." value={newResource.link || ""} onChange={(e) => setNewResource({...newResource, link: e.target.value})} />
                         </div>
-                        <Button onClick={handleAddResource}>Add Resource</Button>
+                        <div className="grid gap-2">
+                            <Label htmlFor="resourceImage">Resource Image (Optional)</Label>
+                            <Input 
+                                id="resourceImage" 
+                                type="file" 
+                                accept="image/*"
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        setResourceImageFile(file);
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => {
+                                            setResourceImagePreview(reader.result as string);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
+                                className="cursor-pointer"
+                            />
+                            {resourceImagePreview && (
+                                <div className="mt-2 relative w-full h-32 rounded-md overflow-hidden border">
+                                    <img src={resourceImagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
+                            <div className="text-xs text-muted-foreground mt-2">Or paste an image URL:</div>
+                            <Input 
+                                placeholder="https://..." 
+                                value={newResource.image_url || ""} 
+                                onChange={(e) => setNewResource({...newResource, image_url: e.target.value})} 
+                            />
+                        </div>
+                        <Button onClick={handleAddResource} disabled={isUploadingResource}>
+                            {isUploadingResource && <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-foreground"></div>}
+                            {isUploadingResource ? 'Uploading...' : 'Add Resource'}
+                        </Button>
                     </CardContent>
                 </Card>
 
@@ -512,12 +681,19 @@ const Admin = () => {
                              {resources.map(res => {
                                 const event = events.find(e => e.id === res.event_id);
                                 return (
-                                    <div key={res.id} className="flex justify-between items-center p-2 border rounded hover:bg-gray-50">
-                                        <div>
-                                            <div className="font-medium">{res.title}</div>
-                                            <div className="text-xs text-muted-foreground">{event?.title || 'Unknown Event'}</div>
+                                    <div key={res.id} className="flex justify-between items-center p-3 border rounded hover:bg-secondary/20 transition-colors">
+                                        <div className="flex gap-3 items-center">
+                                            {res.image_url && (
+                                                <div className="h-10 w-10 rounded overflow-hidden border">
+                                                    <img src={res.image_url} alt="" className="h-full w-full object-cover" />
+                                                </div>
+                                            )}
+                                            <div>
+                                                <div className="font-medium">{res.title}</div>
+                                                <div className="text-xs text-muted-foreground">{event?.title || 'Unknown Event'}</div>
+                                            </div>
                                         </div>
-                                        <a href={res.link} target="_blank" rel="noreferrer" className="text-blue-600 text-sm hover:underline">View</a>
+                                        <a href={res.link} target="_blank" rel="noreferrer" className="text-primary text-sm hover:underline">View</a>
                                     </div>
                                 )
                              })}

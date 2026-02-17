@@ -63,34 +63,57 @@ const EventResources = () => {
              </div>
         </div>
 
-        {/* Resources List */}
-        <div className="space-y-6">
-            <h2 className="text-2xl font-semibold border-b pb-4">Resources</h2>
+        {/* Resources Masonry Grid */}
+        <div className="space-y-8">
+            <h2 className="text-2xl font-bold border-b pb-4">Resources</h2>
             {resources.length > 0 ? (
-                <div className="grid gap-4">
+                <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
                     {resources.map((res) => (
-                        <Card key={res.id} className="hover:shadow-md transition-shadow">
-                            <CardContent className="flex items-center justify-between p-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-gray-100 rounded-full">
-                                        {getIcon(res.title)}
+                        <div key={res.id} className="break-inside-avoid">
+                            <Card className="hover:shadow-xl transition-all duration-300 border-border/50 group overflow-hidden bg-card/50 backdrop-blur-sm">
+                                {res.image_url && (
+                                    <div className="relative aspect-video overflow-hidden">
+                                        <img 
+                                            src={res.image_url} 
+                                            alt={res.title} 
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                                            <p className="text-white text-xs font-medium">{res.title}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-semibold">{res.title}</h3>
-                                        <p className="text-sm text-muted-foreground capitalize">{res.type || 'link'}</p>
+                                )}
+                                <CardContent className="p-5">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="p-2 bg-secondary/30 rounded-lg">
+                                                {getIcon(res.title)}
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-sm leading-tight mb-1">{res.title}</h3>
+                                                <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">{res.type || 'Resource'}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <Button variant="outline" asChild>
-                                    <a href={res.link} target="_blank" rel="noopener noreferrer">
-                                        Open <ExternalLink className="ml-2 h-4 w-4" />
-                                    </a>
-                                </Button>
-                            </CardContent>
-                        </Card>
+                                    <div className="mt-4 flex items-center justify-between">
+                                        <div className="text-[10px] text-muted-foreground">
+                                            Added {new Date(res.created_at).toLocaleDateString()}
+                                        </div>
+                                        <Button size="sm" variant="outline" className="h-8 rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground group-hover:border-primary/50" asChild>
+                                            <a href={res.link} target="_blank" rel="noopener noreferrer">
+                                                Open <ExternalLink className="ml-1.5 h-3 w-3" />
+                                            </a>
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     ))}
                 </div>
             ) : (
-                <p className="text-muted-foreground italic">No resources specific to this event have been uploaded yet.</p>
+                <div className="text-center py-20 border-2 border-dashed rounded-2xl bg-secondary/5">
+                    <p className="text-muted-foreground italic">No resources specific to this event have been uploaded yet.</p>
+                </div>
             )}
         </div>
 

@@ -26,5 +26,6 @@ export type EventResource = {
     title: string;
     link: string;
     type: string;
+    image_url?: string;
     created_at: string;
 };
